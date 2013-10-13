@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0194AD5F-C80F-4F12-8C33-B3D76BD33FCE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MiniPascalCompiler</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>424DCA28-B5CE-409A-B610-364B0777A45B</key>
+		<string>https://github.com/dincho/mini-pascal-compiler.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MiniPascalCompiler/MiniPascalCompiler.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>424DCA28-B5CE-409A-B610-364B0777A45B</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/dincho/mini-pascal-compiler.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>424DCA28-B5CE-409A-B610-364B0777A45B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>424DCA28-B5CE-409A-B610-364B0777A45B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>mini-pascal-compiler</string>
+		</dict>
+	</array>
+</dict>
+</plist>
