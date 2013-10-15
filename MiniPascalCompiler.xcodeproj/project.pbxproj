@@ -14,6 +14,8 @@
 		5B0DCB01180AE92400D6D36B /* lexer_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B0DCAFF180AE92400D6D36B /* lexer_test.cpp */; };
 		5B0DCB03180AEA9F00D6D36B /* lex_test.prg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B0DCB02180AEA9000D6D36B /* lex_test.prg */; };
 		5B44F9A9180B24A4006890EF /* errors.dat in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B44F9A8180B23DE006890EF /* errors.dat */; };
+		5B757949180D2088006490AB /* syntax_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B757947180D2088006490AB /* syntax_test.cpp */; };
+		5B75794B180D21E6006490AB /* sye_test.prg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B75794A180D21A3006490AB /* sye_test.prg */; };
 		5BAD97431809ACBC00AF336D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD97421809ACBC00AF336D /* main.cpp */; };
 		5BAD97531809AF8400AF336D /* Source.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BAD97521809AF8400AF336D /* Source.cpp */; };
 /* End PBXBuildFile section */
@@ -25,6 +27,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				5B75794B180D21E6006490AB /* sye_test.prg in CopyFiles */,
 				5B44F9A9180B24A4006890EF /* errors.dat in CopyFiles */,
 				5B0DCB03180AEA9F00D6D36B /* lex_test.prg in CopyFiles */,
 				5B0DCAF3180A9CC900D6D36B /* srctest.prg in CopyFiles */,
@@ -45,6 +48,10 @@
 		5B0DCB00180AE92400D6D36B /* lexer_test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lexer_test.h; sourceTree = "<group>"; };
 		5B0DCB02180AEA9000D6D36B /* lex_test.prg */ = {isa = PBXFileReference; lastKnownFileType = text; path = lex_test.prg; sourceTree = "<group>"; };
 		5B44F9A8180B23DE006890EF /* errors.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = errors.dat; sourceTree = "<group>"; };
+		5B757947180D2088006490AB /* syntax_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = syntax_test.cpp; sourceTree = "<group>"; };
+		5B757948180D2088006490AB /* syntax_test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syntax_test.h; sourceTree = "<group>"; };
+		5B75794A180D21A3006490AB /* sye_test.prg */ = {isa = PBXFileReference; lastKnownFileType = text; path = sye_test.prg; sourceTree = "<group>"; };
+		5B75794C180D220F006490AB /* bnf_syn_eng.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = bnf_syn_eng.txt; sourceTree = "<group>"; };
 		5BAD973F1809ACBC00AF336D /* MiniPascalCompiler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MiniPascalCompiler; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BAD97421809ACBC00AF336D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		5BAD97511809AF7700AF336D /* Source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Source.h; sourceTree = "<group>"; };
@@ -92,6 +99,10 @@
 			children = (
 				5B0DCAFB180AA4F900D6D36B /* SyntaxAnalyzer.cpp */,
 				5B0DCAFC180AA4F900D6D36B /* SyntaxAnalyzer.h */,
+				5B757947180D2088006490AB /* syntax_test.cpp */,
+				5B757948180D2088006490AB /* syntax_test.h */,
+				5B75794A180D21A3006490AB /* sye_test.prg */,
+				5B75794C180D220F006490AB /* bnf_syn_eng.txt */,
 			);
 			name = SyntaxAnalyzer;
 			sourceTree = "<group>";
@@ -185,6 +196,7 @@
 				5B0DCB01180AE92400D6D36B /* lexer_test.cpp in Sources */,
 				5B0DCAF1180A9A4000D6D36B /* source_test.cpp in Sources */,
 				5B0DCAF9180AA30300D6D36B /* LexicalAnalyzer.cpp in Sources */,
+				5B757949180D2088006490AB /* syntax_test.cpp in Sources */,
 				5BAD97531809AF8400AF336D /* Source.cpp in Sources */,
 				5BAD97431809ACBC00AF336D /* main.cpp in Sources */,
 				5B0DCAFD180AA4F900D6D36B /* SyntaxAnalyzer.cpp in Sources */,

@@ -13,152 +13,179 @@
 //////////////////////////////////
 SyntaxAnalyzer::SyntaxAnalyzer(const char *sourcename) : LexicalAnalyzer(sourcename)
 {
-	statstarters	=	setofsymbols{ident, beginsy, readsy, writesy, ifsy, whilesy};
-	factorstarters	=	setofsymbols{ident, intconst, charconst, notop, leftparent};
-	mulops			=	setofsymbols{times, divop, andop};
-    signs			=	setofsymbols{plus, minus};
-    addops			=	setofsymbols{plus, minus, orop};
-    relops			=	setofsymbols{eqop, neop, ltop, leop, geop, gtop};
+	statementStarters	= {ident, beginsy, readsy, writesy, ifsy, whilesy};
+	factorStarters	= {ident, intconst, charconst, notop, leftparent};
+	mulOps			= {times, divop, andop};
+    signs			= {plus, minus};
+    addOps			= {plus, minus, orop};
+    relOps			= {eqop, neop, ltop, leop, geop, gtop};
 } // syntax( )
 
-SyntaxAnalyzer::~SyntaxAnalyzer( ) {
+SyntaxAnalyzer::~SyntaxAnalyzer()
+{
 	// empty
 } // ~syntax( )
 
 //////////////////////////
 //// Public Functions ////
 //////////////////////////
-void SyntaxAnalyzer::programme( ) {
-	accept( programsy );
-	accept( ident );
-	accept( semicolon );
-	block( );
+void SyntaxAnalyzer::programme()
+{
+    accept(programsy);
+    accept(ident);
+    accept(semicolon);
+    block();
 } // programme( )
 
 ///////////////////////////
 //// Private Functions ////
 ///////////////////////////
-void SyntaxAnalyzer::syntaxerror( symboltype expectedsymbol ) {
-	error( (int)expectedsymbol + 10, symbolposition );
+void SyntaxAnalyzer::syntaxerror(symboltype expectedsymbol)
+{
+	error((int)expectedsymbol + 10, symbolposition);
 } // syntaxerror( )
 
-void SyntaxAnalyzer::accept( symboltype symbolexpected ) {
-	symbol == symbolexpected	? nextsymbol( )
-    : syntaxerror( symbolexpected );
+void SyntaxAnalyzer::accept(symboltype symbolexpected)
+{
+	symbol == symbolexpected ? nextsymbol() : syntaxerror(symbolexpected);
 } // accept( )
 
 
-void SyntaxAnalyzer::block( ) {
-	varpart( );
-	procpart( );
-	statpart( );
+void SyntaxAnalyzer::block()
+{
+	varPart();
+	procPart();
+	statementPart();
 } // block( )
 
-void SyntaxAnalyzer::statpart( ) {
+void SyntaxAnalyzer::statementPart()
+{
 	// ToDo
 } // statpart( )
 
-void SyntaxAnalyzer::compoundstatement( ) {
+void SyntaxAnalyzer::compoundStatement()
+{
 	// ToDo
 } // compoundstatement( );
 
-void SyntaxAnalyzer::statement( ) {
-    //@question - ask the instructor what is setoff >> operator and replace it with stl::set operator
-    
-//	if ( symbol >> statstarters ) {
-//		switch( symbol ) {
-//			case ident	:	assignment( ); break;
-//			case beginsy:	compoundstatement( ); break;
-//			case ifsy	:	ifstatement( ); break;
-//			case whilesy:	whilestatement( ); break;
-//			case readsy	:	readstatement( ); break;
-//			case writesy:	writestatement( ); break;
-//		} // swtich
-//	} else {
-//		syntaxerror( othersy );
-//	}
-} // statement( )
+void SyntaxAnalyzer::statement()
+{
+    if (statementStarters.find(symbol) != statementStarters.end()) {
+        switch(symbol) {
+            case ident: assignment(); break;
+            case beginsy: compoundStatement(); break;
+            case ifsy: ifStatement(); break;
+            case whilesy: whileStatement(); break;
+            case readsy: readStatement(); break;
+            case writesy: writeStatement(); break;
+            default:
+                break;
+        } // swtich
+    } else {
+        syntaxerror(othersy);
+    }
+} // statement()
 
-void SyntaxAnalyzer::ifstatement( ) {
-	accept( ifsy );
-	expression( );
-	accept( thensy );
-	statement( );
-	if ( symbol == elsesy ) {
-		accept( elsesy );
-		statement( );
-	}
+void SyntaxAnalyzer::ifStatement()
+{
+    accept(ifsy);
+    expression();
+    accept(thensy);
+    statement();
+    if (symbol == elsesy) {
+        accept(elsesy);
+        statement();
+    }
 } // ifstatement( )
 
-void SyntaxAnalyzer::whilestatement( ) {
+void SyntaxAnalyzer::whileStatement()
+{
 	// ToDo
 } // whilestatement( )
 
-void SyntaxAnalyzer::outputvalue( ) {
+void SyntaxAnalyzer::outputValue()
+{
 	// ToDo
 } // outputvalue( )
 
-void SyntaxAnalyzer::writestatement( ) {
+void SyntaxAnalyzer::writeStatement()
+{
 	// ToDo
 } // writestatement( )
 
-void SyntaxAnalyzer::inputvariable( ) {
+void SyntaxAnalyzer::inputVariable()
+{
 	// ToDo
 } // inputvariable( )
 
-void SyntaxAnalyzer::readstatement( ) {
+void SyntaxAnalyzer::readStatement()
+{
 	// ToDo
 } // readstatement( )
 
-void SyntaxAnalyzer::variable( ) {
+void SyntaxAnalyzer::variable()
+{
 	// ToDo
 } // variable( )
 
-void SyntaxAnalyzer::assignment( ) {
+void SyntaxAnalyzer::assignment()
+{
 	// ToDo
 } // assignment( )
 
-void SyntaxAnalyzer::expression( ) {
+void SyntaxAnalyzer::expression()
+{
 	// ToDo
 } // expression( );
 
-void SyntaxAnalyzer::simpleexpression( ) {
+void SyntaxAnalyzer::simpleExpression()
+{
 	// ToDo
 } // simpleexpression( )
 
-void SyntaxAnalyzer::term( ) {
+void SyntaxAnalyzer::term()
+{
 	// ToDo
 } // term( )
 
-void SyntaxAnalyzer::factor( ) {
+void SyntaxAnalyzer::factor()
+{
 	// ToDo
 } // factor( )
 
 
-void SyntaxAnalyzer::procdeclaration( ) {
+void SyntaxAnalyzer::procDeclaration()
+{
 	// ToDo
 } // procdeclaration( )
 
-void SyntaxAnalyzer::procpart( ) {
+void SyntaxAnalyzer::procPart()
+{
 	// ToDo
 } // procpart( )
 
 
-void SyntaxAnalyzer::varpart( ) {
+void SyntaxAnalyzer::varPart()
+{
 	// ToDo
 } // varpart( )
 
-void SyntaxAnalyzer::vardeclaration( ) {
+void SyntaxAnalyzer::varDeclaration()
+{
 	// ToDo
 } // vardeclaration( )
 
-void SyntaxAnalyzer::simpletype( ) {
+void SyntaxAnalyzer::simpleType()
+{
 	// ToDo
 } // simpletype( )
 
-void SyntaxAnalyzer::indexrange( ) {
+void SyntaxAnalyzer::indexRange()
+{
 	// ToDo
 } // indexrange( )
-void SyntaxAnalyzer::typ( ) {
+
+void SyntaxAnalyzer::typ()
+{
 	// ToDo
 } // typ( )

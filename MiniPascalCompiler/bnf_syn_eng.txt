@@ -1,0 +1,59 @@
+===================== BNF form ot Mini Pascal syntax ===================     
+
+
+       <programme>		::=	PROGRAM <identifier> ; <block> .
+       <block>			::=	<varpart><procpart><statpart>
+       <varpart> 		::=		<empty>
+       						| VAR <vardeclaration> ;
+       						{ <vardeclaration> ; }
+       <vardeclaration>		::=	<identifier>{ ,<identifier> } : <typ>
+       <typ>			::=	<simpletype> | <arraytype>
+       <arraytype>		::=	ARRAY [ <indexrange> ] OF <simpletype>
+       <indexrange>		::=	<intconst> .. <intconst>
+       <simpletype>		::=	<identifier of type>
+       <identifier of type>	::=	<identifier>
+       <procpart>		::=    	{ <procdeclaration> ; }
+       <procdeclaration>	::=	PROCEDURE <identifier> ; <block>
+       <statpart>		::=	<compoundstatement>
+       <compoundstatement>	::=	BEGIN <statement> { ; <statement> } END
+       <statement>		::=	<simple statement>
+       					| <complex statement>
+       <simple statement>	::=	<assignment>
+       					| <procstatement>
+       					| <readstatement>
+       					| <writestatement>
+       <assignment>		::= <variable> := <expression>
+       <procstatement>		::=	<identifier of procedure>
+       <identifier of procedure>::=	<identifier>
+       <readstatement>		::=	READ ( <input variable> { , <input variable> } )
+       <input variable>		::=	<variable>
+       <writestatement>		::=	WRITE ( <output value> { , <output value> } )
+       <output value>		::=	<expression>
+       <complex statement>	::=	<compoundstatement>
+       					| <ifstatement>
+       					| <whilestatement>
+       <ifstatement>		::=	IF <expression> THEN <statement>
+       					| IF <expression> THEN <statement> ELSE <statement>
+       <whilestatement>		::=	 WHILE <expression> DO <statement>
+       <expression>		::=	<simple expression>
+       					| <simple expression> <ifstatement><simple expression>
+       <simple expression>	::=	<sign><term> { <operator plus><term> }
+       <term>			::=	<factor> { <operator multiply><factor> }
+       <factor>			::=	<variable>
+       					| <constant>
+       					| ( <expression> )
+       					| NOT <factor>
+       <ifstatement>		::=	= | <> | < | <= | >= | >
+       <sign>			::=	+ | - | <empty>
+       <operator plus>		::=	+ | - | OR
+       <operator multiply>	::=	* | DIV | AND
+       <variable>		::=	<simple variable>
+       					| <index variable>
+       <index variable>		::=	<variable array> 	[ <expression> ]
+       <variable array>		::=	<simple variable>
+       <simple variable>	::=	<identifier of variable>
+       <identifier of variable>	::=	<identifier>
+       <constant>		::=	<intconst>
+       					| <charconst>
+       					| <identifier of constant>
+       <identifier of constant>	::=	<identifier>

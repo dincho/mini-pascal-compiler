@@ -90,59 +90,49 @@
 #include <set>
 #include "LexicalAnalyzer.h"
 
-///////////////////////////
-//// Variables & Types ////
-///////////////////////////
-
-// types
-typedef std::set<symboltype> setofsymbols;
-
-///////////////////////////
-//// Class Declaration ////
-///////////////////////////
 class SyntaxAnalyzer : private LexicalAnalyzer {
+
 private:	// variables
-	setofsymbols	statstarters;
-	setofsymbols	factorstarters;
-	setofsymbols	mulops;
-	setofsymbols	signs;
-	setofsymbols	addops;
-	setofsymbols	relops;
-    
-public:		// variables
+    std::set<symboltype> statementStarters;
+    std::set<symboltype> factorStarters;
+    std::set<symboltype> mulOps;
+    std::set<symboltype> signs;
+    std::set<symboltype> addOps;
+    std::set<symboltype> relOps;
     
 private:	// functions
-	void	syntaxerror( symboltype expectedsymbol );
-	void	accept( symboltype symbolexpected );
+	void syntaxerror( symboltype expectedsymbol );
+	void accept( symboltype symbolexpected );
     
-	void	block( );
-	void	varpart( );
-    void	vardeclaration( );
-    void	typ( );
-    void	simpletype( );
-    void	indexrange( );
-	void	procpart( );
-    void	procdeclaration( );
-	void	statpart( );
-    void	compoundstatement( );
-    void	statement( );
-    void	variable( );
-    void	expression( );
-    void	simpleexpression( );
-    void	term( );
-    void	factor( );
-    void	assignment( );
-    void	readstatement( );
-    void	inputvariable( );
-    void	writestatement( );
-    void	outputvalue( );
-    void	ifstatement( );
-    void	whilestatement( );
+	void block();
+	void varPart();
+    void varDeclaration();
+    void typ();
+    void simpleType();
+    void indexRange();
+	void procPart();
+    void procDeclaration();
+	void statementPart();
+    void compoundStatement();
+    void statement();
+    void variable();
+    void expression( );
+    void simpleExpression( );
+    void term();
+    void factor();
+    void assignment();
+    void readStatement( );
+    void inputVariable( );
+    void writeStatement( );
+    void outputValue( );
+    void ifStatement( );
+    void whileStatement( );
+
 public:		// functions
-	SyntaxAnalyzer(const char *sourcename);
-	~SyntaxAnalyzer( );
+    SyntaxAnalyzer(const char *sourcename);
+    ~SyntaxAnalyzer( );
     
-	void	programme( );
+	void programme( );
 };
 
 #endif /* defined(__MiniPascalCompiler__SyntaxAnalyzer__) */
