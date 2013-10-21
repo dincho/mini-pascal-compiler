@@ -63,14 +63,14 @@ const	int		maxinteger		= 32767;
 typedef char alfa[alfalength+1]; // !!! +1 for the string terminator -> \0
 
 typedef enum symboltype {
-	ident, intconst, charconst,
-	notop, andop, orop,
-	times, divop, plus, minus,
-	ltop, leop, geop, gtop, neop, eqop,
-	rightparent, leftparent, leftbracket, rightbracket,
-	comma, semicolon, period, colon, becomes, thru,
-	programsy, varsy, procsy, arraysy, ofsy,
-	beginsy, endsy, ifsy, thensy, elsesy, whilesy, dosy,
+	ident, intconst, charconst, //3
+	notop, andop, orop, //6
+	times, divop, plus, minus, //10
+	ltop, leop, geop, gtop, neop, eqop, //25
+	rightparent, leftparent, leftbracket, rightbracket, //29
+	comma, semicolon, period, colon, becomes, thru, //35
+	programsy, varsy, procsy, arraysy, ofsy, //40
+	beginsy, endsy, ifsy, thensy, elsesy, whilesy, dosy, //47
 	readsy, writesy,
 	othersy
 } symboltype;
