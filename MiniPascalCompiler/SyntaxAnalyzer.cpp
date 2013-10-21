@@ -60,12 +60,20 @@ void SyntaxAnalyzer::block()
 
 void SyntaxAnalyzer::statementPart()
 {
-	// ToDo
+    compoundStatement();
 } // statpart( )
 
 void SyntaxAnalyzer::compoundStatement()
 {
-	// ToDo
+    accept(beginsy);
+    statement();
+    
+    while (symbol == semicolon) {
+        accept(semicolon);
+        statement();
+    }
+    
+    accept(endsy);
 } // compoundstatement( );
 
 void SyntaxAnalyzer::statement()
@@ -100,37 +108,58 @@ void SyntaxAnalyzer::ifStatement()
 
 void SyntaxAnalyzer::whileStatement()
 {
-	// ToDo
+    accept(whilesy);
+    expression();
+    accept(dosy);
+    statement();
 } // whilestatement( )
 
 void SyntaxAnalyzer::outputValue()
 {
-	// ToDo
+    expression();
 } // outputvalue( )
 
 void SyntaxAnalyzer::writeStatement()
 {
-	// ToDo
+    accept(writesy);
+    accept(leftparent);
+    outputValue();
+    while (symbol == comma) {
+        outputValue();
+    }
 } // writestatement( )
 
 void SyntaxAnalyzer::inputVariable()
 {
-	// ToDo
+	variable();
 } // inputvariable( )
 
 void SyntaxAnalyzer::readStatement()
 {
-	// ToDo
+	accept(readsy);
+    inputVariable();
+    
+    while (symbol == comma) {
+        inputVariable();
+    }
 } // readstatement( )
 
 void SyntaxAnalyzer::variable()
 {
-	// ToDo
+    accept(ident);
+    
+    if (symbol == leftbracket) {
+        accept(leftbracket);
+        expression();
+        accept(rightbracket);
+    }
 } // variable( )
 
 void SyntaxAnalyzer::assignment()
 {
-	// ToDo
+    variable();
+    accept(becomes);
+    expression();
 } // assignment( )
 
 void SyntaxAnalyzer::expression()
@@ -140,7 +169,7 @@ void SyntaxAnalyzer::expression()
 
 void SyntaxAnalyzer::simpleExpression()
 {
-	// ToDo
+
 } // simpleexpression( )
 
 void SyntaxAnalyzer::term()
@@ -150,7 +179,7 @@ void SyntaxAnalyzer::term()
 
 void SyntaxAnalyzer::factor()
 {
-	// ToDo
+    
 } // factor( )
 
 
@@ -167,22 +196,43 @@ void SyntaxAnalyzer::procPart()
 
 void SyntaxAnalyzer::varPart()
 {
-	// ToDo
+    //it's optional
+	if (symbol != varsy) {
+        return;
+    }
+    
+    accept(varsy);
+    
+    //at least one declaration is required
+    do {
+        varDeclaration();
+        accept(semicolon);
+    } while (symbol == ident);
 } // varpart( )
 
 void SyntaxAnalyzer::varDeclaration()
 {
-	// ToDo
+    accept(ident);
+    
+    while (symbol == comma) {
+        accept(comma);
+        accept(ident);
+    }
+    
+    accept(colon);
+    typ();
 } // vardeclaration( )
 
 void SyntaxAnalyzer::simpleType()
 {
-	// ToDo
+    accept(ident);
 } // simpletype( )
 
 void SyntaxAnalyzer::indexRange()
 {
-	// ToDo
+    accept(intconst);
+    accept(thru);
+    accept(intconst);
 } // indexrange( )
 
 void SyntaxAnalyzer::typ()

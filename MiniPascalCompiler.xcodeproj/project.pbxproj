@@ -48,6 +48,7 @@
 		5B0DCB00180AE92400D6D36B /* lexer_test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lexer_test.h; sourceTree = "<group>"; };
 		5B0DCB02180AEA9000D6D36B /* lex_test.prg */ = {isa = PBXFileReference; lastKnownFileType = text; path = lex_test.prg; sourceTree = "<group>"; };
 		5B44F9A8180B23DE006890EF /* errors.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = errors.dat; sourceTree = "<group>"; };
+		5B4FB671180D878500D5AC09 /* bnf_lex_eng.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = bnf_lex_eng.txt; sourceTree = "<group>"; };
 		5B757947180D2088006490AB /* syntax_test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = syntax_test.cpp; sourceTree = "<group>"; };
 		5B757948180D2088006490AB /* syntax_test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syntax_test.h; sourceTree = "<group>"; };
 		5B75794A180D21A3006490AB /* sye_test.prg */ = {isa = PBXFileReference; lastKnownFileType = text; path = sye_test.prg; sourceTree = "<group>"; };
@@ -90,6 +91,7 @@
 				5B0DCAFF180AE92400D6D36B /* lexer_test.cpp */,
 				5B0DCB00180AE92400D6D36B /* lexer_test.h */,
 				5B0DCB02180AEA9000D6D36B /* lex_test.prg */,
+				5B4FB671180D878500D5AC09 /* bnf_lex_eng.txt */,
 			);
 			name = LexicalAnalyzer;
 			sourceTree = "<group>";

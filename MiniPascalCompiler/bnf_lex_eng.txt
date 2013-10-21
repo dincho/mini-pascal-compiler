@@ -1,0 +1,15 @@
+<divider> ::= <no meaning symbol>
+<lexeme> ::= <identifier or keyword> | <integer constant> | <symbol constant>
+| <special symbol>
+<identifier or keyword> ::= <identifier> | <keyword>
+<identifier> ::= <letter> {<letter> | <digit>}
+<keyword> ::= DIV | OR | AND | NOT | IF | THEN | ELSE | OF | WHILE | DO | BEGIN
+| END | READ | WRITE | VAR | ARRAY | PROCEDURE | PROGRAM
+<integer constant> ::= <digit> {<digit>}
+<symbol constant> ::= ‘<arbitrary symbol, different than ‘> ‘ | ’’’’
+<special symbol> ::= + | - | * | = | <> | < | > | <= | >= | ( | ) | [
+| ] | := | . | , | ; | : | ..
+<letter> ::= A | B | C | D | E | F | G | H | I | | K | L
+| M | N | O | P | Q | R | S
+| T | U | V | W | X | Y | Z
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
