@@ -142,9 +142,13 @@ void SyntaxAnalyzer::writeStatement()
     accept(writesy);
     accept(leftparent);
     outputValue();
+    
     while (symbol == comma) {
+        accept(comma);
         outputValue();
     }
+    
+    accept(rightparent);
 } // writestatement( )
 
 
@@ -158,17 +162,26 @@ void SyntaxAnalyzer::inputVariable()
 // <readstatement>		::=	READ ( <input variable> { , <input variable> } )
 void SyntaxAnalyzer::readStatement()
 {
-	accept(readsy);
+    
+    accept(readsy);
+    accept(leftparent);
     inputVariable();
     
     while (symbol == comma) {
+        accept(comma);
         inputVariable();
     }
+    
+    accept(rightparent);
 } // readstatement( )
 
 
-//       <variable>		::=	<simple variable>
-//                          | <index variable>
+//<variable>                ::=	<simple variable>
+//                              | <index variable>
+//<simple variable>         ::=	<identifier of variable>
+//<index variable>          ::=	<variable array> 	[ <expression> ]
+//<variable array>          ::=	<simple variable>
+//<identifier of variable>	::=	<identifier>
 void SyntaxAnalyzer::variable()
 {
     accept(ident);
@@ -194,45 +207,106 @@ void SyntaxAnalyzer::assignment()
 //                          | <simple expression> <ifstatement><simple expression>
 void SyntaxAnalyzer::expression()
 {
-	// ToDo
+	simpleExpression();
+    
+    if (symbol == ifsy) {
+        ifStatement();
+        simpleExpression();
+    }
 } // expression( );
 
 
 // <simple expression>	::=	<sign><term> { <operator plus><term> }
+// <sign>               ::=	+ | - | <empty>
+// <operator plus>		::=	+ | - | OR
 void SyntaxAnalyzer::simpleExpression()
 {
-
+    if (symbol == plus || symbol == minus) {
+        nextsymbol();
+    }
+    
+    term();
+    
+    while (symbol == plus || symbol == minus || symbol == orop) {
+        nextsymbol();
+        term();
+    }
+    
 } // simpleexpression( )
 
 
-// <term>			::=	<factor> { <operator multiply><factor> }
+// <term>               ::=	<factor> { <operator multiply><factor> }
+// <operator multiply>	::=	* | DIV | AND
 void SyntaxAnalyzer::term()
 {
-	// ToDo
+    factor();
+    
+    while (symbol == times || symbol == divop || symbol == andop) {
+        nextsymbol();
+        factor();
+    }
+    
 } // term( )
 
 
-// <factor>			::=	<variable>
-//                      | <constant>
-//                      | ( <expression> )
-//                      | NOT <factor>
+// <factor>                  ::=	<variable>
+//                                      | <constant>
+//                                      | ( <expression> )
+//                                      | NOT <factor>
+// <variable>                ::=	<simple variable>
+//                                      | <index variable>
+// <simple variable>         ::=	<identifier of variable>
+// <index variable>          ::=	<variable array> 	[ <expression> ]
+// <variable array>          ::=	<simple variable>
+// <identifier of variable>	 ::=	<identifier>
+// <constant>                ::=	<intconst>
+//                                      | <charconst>
+//                                      | <identifier of constant>
+// <identifier of constant>	 ::=	<identifier>
 void SyntaxAnalyzer::factor()
 {
-    
+    switch (symbol) {
+        case ident:
+            variable();
+            break;
+            
+        case intconst:
+        case charconst:
+//        @todo - conflict
+//        case ident:
+            nextsymbol();
+            break;
+        case leftparent:
+            accept(leftparent);
+            expression();
+            accept(rightparent);
+            break;
+        case notop:
+            nextsymbol();
+            factor();
+        default:
+            //@todo - what error ?
+            break;
+    }
 } // factor( )
 
 
 // <procdeclaration>	::=	PROCEDURE <identifier> ; <block>
 void SyntaxAnalyzer::procDeclaration()
 {
-	// ToDo
+    accept(procsy);
+    accept(ident);
+    accept(semicolon);
+    block();
 } // procdeclaration( )
 
 
 // <procpart>		::=    	{ <procdeclaration> ; }
 void SyntaxAnalyzer::procPart()
 {
-	// ToDo
+    while (symbol == procsy) {
+        procDeclaration();
+    }
 } // procpart( )
 
 
@@ -270,7 +344,8 @@ void SyntaxAnalyzer::varDeclaration()
 } // vardeclaration( )
 
 
-// <simpletype>		::=	<identifier of type>
+// <simpletype>         ::=	<identifier of type>
+// <identifier of type>	::=	<identifier>
 void SyntaxAnalyzer::simpleType()
 {
     accept(ident);
@@ -285,9 +360,26 @@ void SyntaxAnalyzer::indexRange()
     accept(intconst);
 } // indexrange( )
 
+// <arraytype>          ::=	ARRAY [ <indexrange> ] OF <simpletype>
+void SyntaxAnalyzer::arrayType()
+{
+    accept(arraysy);
+    accept(leftbracket);
+    indexRange();
+    accept(rightbracket);
+    accept(ofsy);
+    simpleType();
+}
 
-// <typ>			::=	<simpletype> | <arraytype>
+// <typ>                ::=	<simpletype> | <arraytype>
+// <simpletype>         ::=	<identifier of type>
+// <identifier of type>	::=	<identifier>
+// <arraytype>          ::=	ARRAY [ <indexrange> ] OF <simpletype>
 void SyntaxAnalyzer::typ()
 {
-	// ToDo
+    if (symbol == ident) {
+        simpleType();
+    } else if (symbol == arraysy) {
+        arrayType();
+    }
 } // typ( )

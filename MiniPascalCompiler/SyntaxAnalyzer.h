@@ -127,6 +127,7 @@ private:	// functions
     void outputValue( );
     void ifStatement( );
     void whileStatement( );
+    void arrayType();
 
 public:		// functions
     SyntaxAnalyzer(const char *sourcename);
