@@ -45,12 +45,14 @@ void SyntaxAnalyzer::syntaxerror(symboltype expectedsymbol)
 	error((int)expectedsymbol + 10, symbolposition);
 } // syntaxerror( )
 
+
 void SyntaxAnalyzer::accept(symboltype symbolexpected)
 {
 	symbol == symbolexpected ? nextsymbol() : syntaxerror(symbolexpected);
 } // accept( )
 
 
+// <block>			::=	<varpart><procpart><statpart>
 void SyntaxAnalyzer::block()
 {
 	varPart();
@@ -58,11 +60,15 @@ void SyntaxAnalyzer::block()
 	statementPart();
 } // block( )
 
+
+// <statpart>		::=	<compoundstatement>
 void SyntaxAnalyzer::statementPart()
 {
     compoundStatement();
 } // statpart( )
 
+
+// <compoundstatement>	::=	BEGIN <statement> { ; <statement> } END
 void SyntaxAnalyzer::compoundStatement()
 {
     accept(beginsy);
@@ -76,6 +82,9 @@ void SyntaxAnalyzer::compoundStatement()
     accept(endsy);
 } // compoundstatement( );
 
+
+// <statement>		::=	<simple statement>
+//                      | <complex statement>
 void SyntaxAnalyzer::statement()
 {
     if (statementStarters.find(symbol) != statementStarters.end()) {
@@ -94,6 +103,9 @@ void SyntaxAnalyzer::statement()
     }
 } // statement()
 
+
+// <ifstatement>		::=	IF <expression> THEN <statement>
+//                          | IF <expression> THEN <statement> ELSE <statement>
 void SyntaxAnalyzer::ifStatement()
 {
     accept(ifsy);
@@ -106,6 +118,8 @@ void SyntaxAnalyzer::ifStatement()
     }
 } // ifstatement( )
 
+
+// <whilestatement>		::=	 WHILE <expression> DO <statement>
 void SyntaxAnalyzer::whileStatement()
 {
     accept(whilesy);
@@ -114,11 +128,15 @@ void SyntaxAnalyzer::whileStatement()
     statement();
 } // whilestatement( )
 
+
+// <output value>		::=	<expression>
 void SyntaxAnalyzer::outputValue()
 {
     expression();
 } // outputvalue( )
 
+
+// <writestatement>		::=	WRITE ( <output value> { , <output value> } )
 void SyntaxAnalyzer::writeStatement()
 {
     accept(writesy);
@@ -129,11 +147,15 @@ void SyntaxAnalyzer::writeStatement()
     }
 } // writestatement( )
 
+
+// <input variable>		::=	<variable>
 void SyntaxAnalyzer::inputVariable()
 {
 	variable();
 } // inputvariable( )
 
+
+// <readstatement>		::=	READ ( <input variable> { , <input variable> } )
 void SyntaxAnalyzer::readStatement()
 {
 	accept(readsy);
@@ -144,6 +166,9 @@ void SyntaxAnalyzer::readStatement()
     }
 } // readstatement( )
 
+
+//       <variable>		::=	<simple variable>
+//                          | <index variable>
 void SyntaxAnalyzer::variable()
 {
     accept(ident);
@@ -155,6 +180,8 @@ void SyntaxAnalyzer::variable()
     }
 } // variable( )
 
+
+// <assignment>		::= <variable> := <expression>
 void SyntaxAnalyzer::assignment()
 {
     variable();
@@ -162,38 +189,55 @@ void SyntaxAnalyzer::assignment()
     expression();
 } // assignment( )
 
+
+// <expression>         ::=	<simple expression>
+//                          | <simple expression> <ifstatement><simple expression>
 void SyntaxAnalyzer::expression()
 {
 	// ToDo
 } // expression( );
 
+
+// <simple expression>	::=	<sign><term> { <operator plus><term> }
 void SyntaxAnalyzer::simpleExpression()
 {
 
 } // simpleexpression( )
 
+
+// <term>			::=	<factor> { <operator multiply><factor> }
 void SyntaxAnalyzer::term()
 {
 	// ToDo
 } // term( )
 
+
+// <factor>			::=	<variable>
+//                      | <constant>
+//                      | ( <expression> )
+//                      | NOT <factor>
 void SyntaxAnalyzer::factor()
 {
     
 } // factor( )
 
 
+// <procdeclaration>	::=	PROCEDURE <identifier> ; <block>
 void SyntaxAnalyzer::procDeclaration()
 {
 	// ToDo
 } // procdeclaration( )
 
+
+// <procpart>		::=    	{ <procdeclaration> ; }
 void SyntaxAnalyzer::procPart()
 {
 	// ToDo
 } // procpart( )
 
 
+//  <varpart> 		::=		<empty>
+//                          | VAR <vardeclaration> ; { <vardeclaration> ; }
 void SyntaxAnalyzer::varPart()
 {
     //it's optional
@@ -210,6 +254,8 @@ void SyntaxAnalyzer::varPart()
     } while (symbol == ident);
 } // varpart( )
 
+
+// <vardeclaration>		::=	<identifier>{ ,<identifier> } : <typ>
 void SyntaxAnalyzer::varDeclaration()
 {
     accept(ident);
@@ -223,11 +269,15 @@ void SyntaxAnalyzer::varDeclaration()
     typ();
 } // vardeclaration( )
 
+
+// <simpletype>		::=	<identifier of type>
 void SyntaxAnalyzer::simpleType()
 {
     accept(ident);
 } // simpletype( )
 
+
+// <indexrange>		::=	<intconst> .. <intconst>
 void SyntaxAnalyzer::indexRange()
 {
     accept(intconst);
@@ -235,6 +285,8 @@ void SyntaxAnalyzer::indexRange()
     accept(intconst);
 } // indexrange( )
 
+
+// <typ>			::=	<simpletype> | <arraytype>
 void SyntaxAnalyzer::typ()
 {
 	// ToDo
