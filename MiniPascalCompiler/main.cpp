@@ -13,7 +13,7 @@
 
 int main(int argc, const char * argv[])
 {
-//    return source_test(argc, argv);
+//    return lexer_test(argc, argv);
     return syntax_test(argc, argv);
 }
 
