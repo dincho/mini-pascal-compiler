@@ -209,12 +209,21 @@ void SyntaxAnalyzer::expression()
 {
 	simpleExpression();
     
-    if (symbol == ifsy) {
-        ifStatement();
+    if(relOps.find(symbol) != relOps.end()) {
+        relationOperator();
         simpleExpression();
     }
 } // expression( );
 
+//  <relation operator>		::=	= | <> | < | <= | >= | >
+void SyntaxAnalyzer::relationOperator()
+{
+    if(relOps.find(symbol) != relOps.end()) {
+        nextsymbol();
+    } else {
+        error(51, symbolposition);
+    }
+}
 
 // <simple expression>	::=	<sign><term> { <operator plus><term> }
 // <sign>               ::=	+ | - | <empty>

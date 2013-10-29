@@ -128,6 +128,7 @@ private:	// functions
     void ifStatement( );
     void whileStatement( );
     void arrayType();
+    void relationOperator();
 
 public:		// functions
     SyntaxAnalyzer(const char *sourcename);

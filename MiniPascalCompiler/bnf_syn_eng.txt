@@ -36,14 +36,14 @@
        					| IF <expression> THEN <statement> ELSE <statement>
        <whilestatement>		::=	 WHILE <expression> DO <statement>
        <expression>		::=	<simple expression>
-       					| <simple expression> <ifstatement><simple expression>
+       					| <simple expression> <relation operator><simple expression>
        <simple expression>	::=	<sign><term> { <operator plus><term> }
        <term>			::=	<factor> { <operator multiply><factor> }
        <factor>			::=	<variable>
        					| <constant>
        					| ( <expression> )
        					| NOT <factor>
-       <ifstatement>		::=	= | <> | < | <= | >= | >
+       <relation operator>		::=	= | <> | < | <= | >= | >
        <sign>			::=	+ | - | <empty>
        <operator plus>		::=	+ | - | OR
        <operator multiply>	::=	* | DIV | AND
