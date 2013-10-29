@@ -83,7 +83,7 @@ void Source::readnextline( ) {
     
 	firstinline = 0;
 	
-	while (fin.get(inChar) && inChar != '\n' && !fin.eof()) {
+	while (fin.get(inChar) && inChar != '\n' && inChar != '\r' && !fin.eof()) {
 		line[i] = inChar;
 		i++;
 		if ( i > MAX_CHARACTERS ) {
@@ -102,20 +102,15 @@ void Source::listerrors( ) {
     
 	for (int k=0; k<errinx; k++) {
 		std::cout << "*****   ";
-		if ( errlist[k].errorposition.linenumber != positionnow.linenumber ) {
-			int tempVar = errlist[k].errorposition.charnumber - firstinline + 1;
-			std::cout << "ERROR"
-            << std::setw(10) << errlist[k].errorcode
-            << " AT CHARACTER"
-            << std::setw(3) << tempVar
-            << " OF LINE"
-            << std::setw(6) << errlist[k].errorposition.linenumber;
-		} else {
-			int tempVar = errlist[k].errorposition.charnumber - firstinline + 6;
-			std::cout << std::setw(tempVar) << "^ERROR"
-            << std::setw(4) << errlist[k].errorcode
-            << " - " << errorMap[errlist[k].errorcode];
-		}
+
+        int tempVar = errlist[k].errorposition.charnumber - firstinline + 1;
+        std::cout << "ERROR: "
+        << std::setw(10) << errorMap[errlist[k].errorcode]
+        << " AT CHARACTER"
+        << std::setw(3) << tempVar
+        << " OF LINE"
+        << std::setw(6) << errlist[k].errorposition.linenumber;
+
 		std::cout << std::endl;
 	}
     
