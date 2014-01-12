@@ -104,31 +104,39 @@ private:	// functions
 	void syntaxerror( symboltype expectedsymbol );
 	void accept( symboltype symbolexpected );
     
-	void block();
-	void varPart();
+	void block(std::set<symboltype> followers);
+	void varPart(std::set<symboltype> followers);
     void varDeclaration();
     void typ();
     void simpleType();
     void indexRange();
-	void procPart();
-    void procDeclaration();
-	void statementPart();
-    void compoundStatement();
-    void statement();
+	void procPart(std::set<symboltype> followers);
+    void procDeclaration(std::set<symboltype> followers);
+	void statementPart(std::set<symboltype> followers);
+    void compoundStatement(std::set<symboltype> followers);
+    void statement(std::set<symboltype> followers);
     void variable();
     void expression( );
     void simpleExpression( );
     void term();
     void factor();
-    void assignment();
-    void readStatement( );
+    void assignment(std::set<symboltype> followers);
+    void readStatement(std::set<symboltype> followers);
     void inputVariable( );
-    void writeStatement( );
+    void writeStatement(std::set<symboltype> followers);
     void outputValue( );
-    void ifStatement( );
-    void whileStatement( );
+    void ifStatement(std::set<symboltype> followers);
+    void whileStatement(std::set<symboltype> followers);
     void arrayType();
     void relationOperator();
+    void skipto(std::set<symboltype> &relevantsymbols);
+    void skipto(std::set<symboltype> &starters,
+                std::set<symboltype> &followers);
+    bool startcheck(
+        std::set<symboltype> &starters,
+        std::set<symboltype> &followers
+    );
+    void endcheck(std::set<symboltype> &followers);
 
 public:		// functions
     SyntaxAnalyzer(const char *sourcename);

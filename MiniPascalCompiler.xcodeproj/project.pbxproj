@@ -86,8 +86,8 @@
 		5B0DCAF5180AA2AA00D6D36B /* LexicalAnalyzer */ = {
 			isa = PBXGroup;
 			children = (
-				5B0DCAF8180AA30300D6D36B /* LexicalAnalyzer.cpp */,
 				5B0DCAFA180AA32100D6D36B /* LexicalAnalyzer.h */,
+				5B0DCAF8180AA30300D6D36B /* LexicalAnalyzer.cpp */,
 				5B0DCAFF180AE92400D6D36B /* lexer_test.cpp */,
 				5B0DCB00180AE92400D6D36B /* lexer_test.h */,
 				5B0DCB02180AEA9000D6D36B /* lex_test.prg */,
@@ -99,8 +99,8 @@
 		5B0DCAF6180AA2B800D6D36B /* SyntaxAnalyzer */ = {
 			isa = PBXGroup;
 			children = (
-				5B0DCAFB180AA4F900D6D36B /* SyntaxAnalyzer.cpp */,
 				5B0DCAFC180AA4F900D6D36B /* SyntaxAnalyzer.h */,
+				5B0DCAFB180AA4F900D6D36B /* SyntaxAnalyzer.cpp */,
 				5B757947180D2088006490AB /* syntax_test.cpp */,
 				5B757948180D2088006490AB /* syntax_test.h */,
 				5B75794A180D21A3006490AB /* sye_test.prg */,

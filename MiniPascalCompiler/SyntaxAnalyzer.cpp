@@ -7,6 +7,8 @@
 //
 
 #include "SyntaxAnalyzer.h"
+#include <algorithm>
+#include <iostream>
 
 //////////////////////////////////
 //// Constructor & Destructor ////
@@ -26,15 +28,58 @@ SyntaxAnalyzer::~SyntaxAnalyzer()
 	// empty
 } // ~syntax( )
 
+void SyntaxAnalyzer::skipto(std::set<symboltype> &relevantsymbols)
+{
+    while (relevantsymbols.find(symbol) == relevantsymbols.end()) {
+        nextsymbol();
+        //std::cout << "skip: " << symbol << "\n";
+    }
+}
+
+void SyntaxAnalyzer::skipto(std::set<symboltype> &starters,
+                            std::set<symboltype> &followers)
+{
+    std::set<symboltype> skipsymbols;
+    std::set_union(starters.begin(), starters.end(),
+                   followers.begin(), followers.end(),
+                   std::inserter(skipsymbols, skipsymbols.begin())
+                   );
+    skipto(skipsymbols);
+}
+
+bool SyntaxAnalyzer::startcheck(
+    std::set<symboltype> &starters,
+    std::set<symboltype> &followers
+) {
+    if (starters.find(symbol) == starters.end()) {
+        syntaxerror(othersy);
+        skipto(starters, followers);
+        return false; //symbol not in starters
+    } else {
+        return true; //symbol in starters
+    }
+}
+
+void SyntaxAnalyzer::endcheck(std::set<symboltype> &followers)
+{
+    if (followers.find(symbol) == followers.end()) {
+        syntaxerror(othersy);
+        skipto(followers);
+    }
+}
+
 //////////////////////////
 //// Public Functions ////
 //////////////////////////
+
+//<programme>		::=	PROGRAM <identifier> ; <block> .
 void SyntaxAnalyzer::programme()
 {
     accept(programsy);
     accept(ident);
     accept(semicolon);
-    block();
+    block({period});
+    accept(period);
 } // programme( )
 
 ///////////////////////////
@@ -43,6 +88,7 @@ void SyntaxAnalyzer::programme()
 void SyntaxAnalyzer::syntaxerror(symboltype expectedsymbol)
 {
 	error((int)expectedsymbol + 10, symbolposition);
+    std::cout << "espected: " << expectedsymbol << ", got: " << symbol << "\n";
 } // syntaxerror( )
 
 
@@ -53,30 +99,36 @@ void SyntaxAnalyzer::accept(symboltype symbolexpected)
 
 
 // <block>			::=	<varpart><procpart><statpart>
-void SyntaxAnalyzer::block()
+void SyntaxAnalyzer::block(std::set<symboltype> followers)
 {
-	varPart();
-	procPart();
-	statementPart();
+    followers.insert(procsy);
+	varPart(followers);
+    
+    std::set<symboltype> followers2 (followers);
+    followers.insert(beginsy);
+	procPart(followers2);
+    
+	statementPart(followers);
 } // block( )
 
 
 // <statpart>		::=	<compoundstatement>
-void SyntaxAnalyzer::statementPart()
+void SyntaxAnalyzer::statementPart(std::set<symboltype> followers)
 {
-    compoundStatement();
+    compoundStatement(followers);
 } // statpart( )
 
 
 // <compoundstatement>	::=	BEGIN <statement> { ; <statement> } END
-void SyntaxAnalyzer::compoundStatement()
+void SyntaxAnalyzer::compoundStatement(std::set<symboltype> followers)
 {
+    
     accept(beginsy);
-    statement();
+    statement(followers);
     
     while (symbol == semicolon) {
         accept(semicolon);
-        statement();
+        statement(followers);
     }
     
     accept(endsy);
@@ -85,16 +137,18 @@ void SyntaxAnalyzer::compoundStatement()
 
 // <statement>		::=	<simple statement>
 //                      | <complex statement>
-void SyntaxAnalyzer::statement()
+void SyntaxAnalyzer::statement(std::set<symboltype> followers)
 {
+    //ako neterminala ne se vika ot drugo mqsto
+    //ne se pravi startcheck & endcheck v tqh a samo v parenta
     if (statementStarters.find(symbol) != statementStarters.end()) {
         switch(symbol) {
-            case ident: assignment(); break;
-            case beginsy: compoundStatement(); break;
-            case ifsy: ifStatement(); break;
-            case whilesy: whileStatement(); break;
-            case readsy: readStatement(); break;
-            case writesy: writeStatement(); break;
+            case ident: assignment(followers); break;
+            case beginsy: compoundStatement(followers); break;
+            case ifsy: ifStatement(followers); break;
+            case whilesy: whileStatement(followers); break;
+            case readsy: readStatement(followers); break;
+            case writesy: writeStatement(followers); break;
             default:
                 break;
         } // swtich
@@ -106,26 +160,26 @@ void SyntaxAnalyzer::statement()
 
 // <ifstatement>		::=	IF <expression> THEN <statement>
 //                          | IF <expression> THEN <statement> ELSE <statement>
-void SyntaxAnalyzer::ifStatement()
+void SyntaxAnalyzer::ifStatement(std::set<symboltype> followers)
 {
     accept(ifsy);
     expression();
     accept(thensy);
-    statement();
+    statement(followers);
     if (symbol == elsesy) {
         accept(elsesy);
-        statement();
+        statement(followers);
     }
 } // ifstatement( )
 
 
 // <whilestatement>		::=	 WHILE <expression> DO <statement>
-void SyntaxAnalyzer::whileStatement()
+void SyntaxAnalyzer::whileStatement(std::set<symboltype> followers)
 {
     accept(whilesy);
     expression();
     accept(dosy);
-    statement();
+    statement(followers);
 } // whilestatement( )
 
 
@@ -137,7 +191,7 @@ void SyntaxAnalyzer::outputValue()
 
 
 // <writestatement>		::=	WRITE ( <output value> { , <output value> } )
-void SyntaxAnalyzer::writeStatement()
+void SyntaxAnalyzer::writeStatement(std::set<symboltype> followers)
 {
     accept(writesy);
     accept(leftparent);
@@ -160,7 +214,7 @@ void SyntaxAnalyzer::inputVariable()
 
 
 // <readstatement>		::=	READ ( <input variable> { , <input variable> } )
-void SyntaxAnalyzer::readStatement()
+void SyntaxAnalyzer::readStatement(std::set<symboltype> followers)
 {
     
     accept(readsy);
@@ -195,7 +249,7 @@ void SyntaxAnalyzer::variable()
 
 
 // <assignment>		::= <variable> := <expression>
-void SyntaxAnalyzer::assignment()
+void SyntaxAnalyzer::assignment(std::set<symboltype> followers)
 {
     variable();
     accept(becomes);
@@ -301,40 +355,49 @@ void SyntaxAnalyzer::factor()
 
 
 // <procdeclaration>	::=	PROCEDURE <identifier> ; <block>
-void SyntaxAnalyzer::procDeclaration()
+void SyntaxAnalyzer::procDeclaration(std::set<symboltype> followers)
 {
     accept(procsy);
     accept(ident);
     accept(semicolon);
-    block();
+    
+    block(followers);
 } // procdeclaration( )
 
 
 // <procpart>		::=    	{ <procdeclaration> ; }
-void SyntaxAnalyzer::procPart()
+void SyntaxAnalyzer::procPart(std::set<symboltype> followers)
 {
     while (symbol == procsy) {
-        procDeclaration();
+        procDeclaration(followers);
     }
 } // procpart( )
 
 
 //  <varpart> 		::=		<empty>
 //                          | VAR <vardeclaration> ; { <vardeclaration> ; }
-void SyntaxAnalyzer::varPart()
+void SyntaxAnalyzer::varPart(std::set<symboltype> followers)
 {
-    //it's optional
-	if (symbol != varsy) {
+    std::set<symboltype> starters(followers); //copy followers
+    starters.insert(varsy);
+    
+    //symbol not found in starters, do nothing
+    if(!startcheck(starters, followers)) {
         return;
     }
     
-    accept(varsy);
+    //it's optional
+	if (symbol == varsy) {
+        accept(varsy);
+        
+        //at least one declaration is required
+        do {
+            varDeclaration();
+            accept(semicolon);
+        } while (symbol == ident);
+    }
     
-    //at least one declaration is required
-    do {
-        varDeclaration();
-        accept(semicolon);
-    } while (symbol == ident);
+    endcheck(followers);
 } // varpart( )
 
 
